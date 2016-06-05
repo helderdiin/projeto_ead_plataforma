@@ -1,6 +1,26 @@
 <DOCTYPE html>
 <html>
 	<head>
+		<script type="text/javascript" src="includes/js/libs/jquery-2.2.4.min.js"></script>
+		<script type="text/javascript" src="includes/js/libs/moment.min.js"></script>
+		<script type="text/javascript" src="includes/js/libs/moment/pt_BR.js"></script>
+
+		<script type="text/javascript">
+			moment.locale('pt-br');
+			function convertMsToISOString(dt_init, dt_final) {
+				return {
+					'dt_init': new Date(dt_init).toISOString().substring(0, 10),
+					'dt_final': new Date(dt_final).toISOString().substring(0, 10)
+				};
+			}
+
+			function convertMsToHumanFriendly(dt_init, dt_final) {
+				return {
+					'dt_init': moment(dt_init).format('L'),
+					'dt_final': moment(dt_final).format('L')
+				};
+			}
+		</script>
 	</head>
 	<body>
 		<?php if (isset($_SESSION['USER']['NAME'])) { ?>
@@ -9,6 +29,9 @@
 			<?php if ($_SESSION['USER']['TYPE'] == 'ADM') { ?>
 			<a href='?controller=pages&action=clients'>Manage clients</a>
 			<a href='?controller=pages&action=services'>Manage services</a>
+			<?php } ?>
+			<?php if ($_SESSION['USER']['TYPE'] == 'CLIENT') { ?>
+			<a href='?controller=pages&action=contracts'>Manage contracts</a>
 			<?php } ?>
 			<a href='?controller=login&action=logoff'>Logoff</a>
 		</header>
