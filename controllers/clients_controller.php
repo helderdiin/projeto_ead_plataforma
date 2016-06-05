@@ -1,8 +1,12 @@
 <?php
 	class ClientsController {
 		public function add() {
-			if ($_POST['name'] && $_POST['email'] && $_POST['password']) {
-				if (Clients::add($_POST['name'], $_POST['email'], $_POST['password'])) {
+			$name = trim($_POST['name']);
+			$email = trim($_POST['email']);
+			$password = trim($_POST['password']);
+
+			if ($name && $email && $password) {
+				if (Clients::add($name, $email, $password)) {
 					Header("Location: index.php?controller=pages&action=clients_list");
 					exit;
 				} else {
@@ -36,8 +40,12 @@
 		}
 
 		public function edit() {
-			if ($_POST['name'] && $_POST['email'] && $_POST['password'] && $_GET['id']) {
-				if (Clients::edit($_GET['id'], $_POST['name'], $_POST['email'], $_POST['password'])) {
+			$name = trim($_POST['name']);
+			$email = trim($_POST['email']);
+			$password = trim($_POST['password']);
+
+			if ($name && $email && $password && $_GET['id']) {
+				if (Clients::edit($_GET['id'], $name, $email, $password)) {
 					Header("Location: index.php?controller=pages&action=clients_list");
 					exit;
 				} else {

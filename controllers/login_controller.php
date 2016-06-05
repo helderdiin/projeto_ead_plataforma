@@ -1,9 +1,12 @@
 <?php
 	class LoginController {
 		public function login() {
-			if ($_POST['email'] && $_POST['password']) {
+			$email = trim($_POST['email']);
+			$password = trim($_POST['password']);
+
+			if ($email && $password) {
 				if (!isset($_SESSION['USER']['NAME'])) {
-					$user = Login::login($_POST['email'], $_POST['password']);
+					$user = Login::login($email, $password);
 
 					if (is_null($user->id)) {
 						Utils::goToErrorPage();

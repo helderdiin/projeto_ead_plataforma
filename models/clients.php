@@ -13,17 +13,17 @@
             $this->type = $type;
         }
 
-        public static function checkForClient($email) {
+        public static function checkForClient($id, $email) {
             $db = Db::getInstance();
 
-            $stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
-            $stmt->execute(array(':email' => $email));
+            $stmt = $db->prepare("SELECT * FROM users WHERE email = :email AND id <> :id");
+            $stmt->execute(array(':email' => $email, ':id' => $id));
             
             return $stmt->fetch();
         }
 
         public static function add($name, $email, $password) {
-            if (!self::checkForClient($email)) {
+            if (!self::checkForClient(NULL, $email)) {
                 $db = Db::getInstance();
 
                 $stmt = $db->prepare("INSERT INTO users 
@@ -32,7 +32,7 @@
 
                 return $stmt->execute(array(':name' => $name, 
                                      ':email' => $email, 
-                                     ':password' => $password, 
+                                     ':password' => md5($password), 
                                      ':type' => "CLIENT"));
             } else {
                 return false;
@@ -40,7 +40,7 @@
         }
 
         public static function edit($id, $name, $email, $password) {
-            if (!self::checkForClient($email)) {
+            if (!self::checkForClient($id, $email)) {
             	$db = Db::getInstance();
 
                 $stmt = $db->prepare("UPDATE users 
@@ -52,7 +52,7 @@
                 return $stmt->execute(array(':id' => $id, 
                 					 ':name' => $name, 
                 					 ':email' => $email, 
-                					 ':password' => $password));
+                					 ':password' => md5($password)));
             } else {
                 return false;
             }
