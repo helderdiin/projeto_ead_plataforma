@@ -6,8 +6,7 @@
 					$user = Login::login($_POST['email'], $_POST['password']);
 
 					if (is_null($user->id)) {
-						Header("Location: index.php?controller=pages&action=error");
-						exit;
+						Utils::goToErrorPage();
 					}
 
 					$_SESSION['USER']['NAME'] = $user->name;
@@ -17,7 +16,9 @@
 
 				Header("Location: index.php?controller=pages&action=home");
 				exit;
-			}      
+			} else {
+				Utils::goToErrorPage();
+			}
 		}
 
 		public function logoff() {

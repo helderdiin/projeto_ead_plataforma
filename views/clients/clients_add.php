@@ -1,4 +1,13 @@
-<form method="post" action="?controller=login&action=login">
+<?php 
+	require_once('views/clients/index.php');
+?>
+<form method="post" action="?controller=clients&action=add">
+    <div>
+       <label for="name">Name</label>
+       <div>
+          <input type="text" name="name" id="name" placeholder="Name" required>
+       </div>
+    </div>
     <div>
        <label for="email">Email</label>
        <div>
@@ -13,7 +22,7 @@
     </div>
     <div>
        <div>
-          <input type="submit" value="Login">
+          <input type="submit" value="Add new client">
        </div>
     </div>
 </form>
