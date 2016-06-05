@@ -1,7 +1,7 @@
 <?php
     class PagesController {
         public function login() {
-            if (isset($_SESSION['USER']['NAME'])) {
+            if (is_array(Session::getSession())) {
                 self::home();
             } else {
                 require_once('views/login/index.php');
@@ -9,7 +9,7 @@
         }
         
         public function home() {
-            $name = $_SESSION['USER']['NAME'];
+            $name = Session::getName();
 
             require_once('views/pages/home.php');
         }

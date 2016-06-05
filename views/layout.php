@@ -23,15 +23,15 @@
 		</script>
 	</head>
 	<body>
-		<?php if (isset($_SESSION['USER']['NAME'])) { ?>
+		<?php if (is_array(Session::getSession())) { ?>
 		<header>
 			<a href='/empresa'>Home</a>
-			<?php if ($_SESSION['USER']['TYPE'] == 'ADM') { ?>
+			<?php if (Session::getType() == 'ADM') { ?>
 			<a href='?controller=pages&action=clients'>Manage clients</a>
 			<a href='?controller=pages&action=services'>Manage services</a>
 			<a href='?controller=pages&action=contracts_list'>Manage contracts</a>
 			<?php } ?>
-			<?php if ($_SESSION['USER']['TYPE'] == 'CLIENT') { ?>
+			<?php if (Session::getType() == 'CLIENT') { ?>
 			<a href='?controller=pages&action=contracts'>Manage contracts</a>
 			<?php } ?>
 			<a href='?controller=login&action=logoff'>Logoff</a>

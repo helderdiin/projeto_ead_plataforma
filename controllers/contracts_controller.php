@@ -6,7 +6,7 @@
 			$id_service = trim($_POST['id_service']);
 			
 			if ($dt_init && $dt_final && $id_service) {
-				if (Contracts::add($dt_init, $dt_final, $id_service, $_SESSION['USER']['EMAIL'])) {
+				if (Contracts::add($dt_init, $dt_final, $id_service, Session::getEmail())) {
 					Header("Location: index.php?controller=pages&action=contracts_list");
 					exit;
 				} else {
@@ -18,7 +18,7 @@
 		}
 
 		public function list() {
-			return Contracts::getAll($_SESSION['USER']['EMAIL'], $_SESSION['USER']['TYPE']);
+			return Contracts::getAll(Session::getEmail(), Session::getType());
 		}
 
 		public function getContract($id) {
@@ -41,7 +41,7 @@
 			$id_service = trim($_POST['id_service']);
 
 			if ($dt_init && $dt_final && $id_service && $_GET['id']) {
-				if (Contracts::edit($_GET['id'], $dt_init, $dt_final, $id_service, $_SESSION['USER']['EMAIL'])) {
+				if (Contracts::edit($_GET['id'], $dt_init, $dt_final, $id_service, Session::getEmail())) {
 					Header("Location: index.php?controller=pages&action=contracts_list");
 					exit;
 				} else {

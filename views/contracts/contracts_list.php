@@ -17,7 +17,7 @@
 			$client = ClientsController::getClient($contract['id_client']);
 ?>
 	<li class="contract<?php echo $contract['id']; ?>">
-		<?php if ($_SESSION['USER']['TYPE'] == 'CLIENT') { ?>
+		<?php if (Session::getType() == 'CLIENT') { ?>
 		<a href="?controller=pages&action=contracts_edit&id=<?php echo $contract['id']; ?>">Edit</a>
 		<a href="?controller=contracts&action=remove&id=<?php echo $contract['id']; ?>">Remove</a>
 		<?php } ?>
