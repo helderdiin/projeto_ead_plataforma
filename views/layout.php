@@ -29,6 +29,7 @@
 			<?php if ($_SESSION['USER']['TYPE'] == 'ADM') { ?>
 			<a href='?controller=pages&action=clients'>Manage clients</a>
 			<a href='?controller=pages&action=services'>Manage services</a>
+			<a href='?controller=pages&action=contracts_list'>Manage contracts</a>
 			<?php } ?>
 			<?php if ($_SESSION['USER']['TYPE'] == 'CLIENT') { ?>
 			<a href='?controller=pages&action=contracts'>Manage contracts</a>

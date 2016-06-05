@@ -54,12 +54,17 @@
             return $stmt->execute(array(':id' => $id));
         }
 
-        public static function getAll($email) {
+        public static function getAll($email, $type) {
 			$db = Db::getInstance();
 
-			$stmt = $db->prepare("SELECT * FROM contracts WHERE id_client = 
-                                 (SELECT id FROM users WHERE email = :email)");
-            $stmt->execute(array(':email' => $email));
+            if ($type == 'ADM') {
+                $stmt = $db->prepare("SELECT * FROM contracts");
+                $stmt->execute();
+            } else {
+    			$stmt = $db->prepare("SELECT * FROM contracts WHERE id_client = 
+                                     (SELECT id FROM users WHERE email = :email)");
+                $stmt->execute(array(':email' => $email));
+            }
             
             return $stmt->fetchAll();
         }

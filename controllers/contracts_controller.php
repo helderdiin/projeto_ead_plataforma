@@ -18,7 +18,7 @@
 		}
 
 		public function list() {
-			return Contracts::getAll($_SESSION['USER']['EMAIL']);
+			return Contracts::getAll($_SESSION['USER']['EMAIL'], $_SESSION['USER']['TYPE']);
 		}
 
 		public function getContract($id) {

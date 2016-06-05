@@ -15,15 +15,15 @@
         }
 
         public function clients() {
-            require_once('views/clients/clients_add.php');
+            require_once('views/clients/clients_list.php');
         }
 
         public function services() {
-            require_once('views/services/services_add.php');
+            require_once('views/services/services_list.php');
         }
 
         public function contracts() {
-            require_once('views/contracts/contracts_add.php');
+            require_once('views/contracts/contracts_list.php');
         }
 
         public function error() {
