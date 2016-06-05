@@ -20,6 +20,14 @@
 					'dt_final': moment(dt_final).format('L')
 				};
 			}
+
+			/*$.ajax({
+				url: 'api.php/services',
+				method: 'GET',
+				success: function(res) {
+					console.log(res);
+				}
+			});*/
 		</script>
 	</head>
 	<body>
