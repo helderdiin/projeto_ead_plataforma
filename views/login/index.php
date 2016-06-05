@@ -13,6 +13,7 @@
     </div>
     <div>
        <div>
+          <input type="checkbox" name="rememberme" />Remember me
           <input type="submit" value="Login">
        </div>
     </div>

@@ -12,7 +12,7 @@
 						Utils::goToErrorPage();
 					}
 
-					Session::setSession($user);
+					Session::setSession($user, $_POST['rememberme']);
 				}
 
 				Header("Location: index.php?controller=pages&action=home");

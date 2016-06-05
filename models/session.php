@@ -10,7 +10,7 @@
     		}
     	}
 
-        public static function setSession($user) {
+        public static function setSession($user, $remember) {
         	$values = array(
         					$user->name, 
         					$user->email, 
@@ -18,7 +18,7 @@
 
     		$session = implode(",", $values);
         	
-        	if (isset($_COOKIE)) {
+        	if (isset($_COOKIE) && $remember == 'on') {
         		setcookie("USER", $session, time() + 1000 * 60 * 60 * 24 * 365, '/');
         	} else {
         		$_SESSION['USER'] = $session;
