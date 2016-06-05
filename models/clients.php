@@ -23,7 +23,7 @@
         }
 
         public static function add($name, $email, $password) {
-            if (!self::checkForClient(NULL, $email)) {
+            if (!self::checkForClient("", $email)) {
                 $db = Db::getInstance();
 
                 $stmt = $db->prepare("INSERT INTO users 
