@@ -18,6 +18,10 @@
             require_once('views/clients/clients_add.php');
         }
 
+        public function services() {
+            require_once('views/services/services_add.php');
+        }
+
         public function error() {
             require_once('views/pages/error.php');
         }
@@ -34,6 +38,20 @@
             $id = $_GET['id'];
             
             require_once('views/clients/clients_edit.php');
+        }
+
+        public function services_add() {
+            require_once('views/services/services_add.php');
+        } 
+
+        public function services_list() {
+            require_once('views/services/services_list.php');
+        } 
+
+        public function services_edit() {
+            $id = $_GET['id'];
+            
+            require_once('views/services/services_edit.php');
         }
     }
 ?>

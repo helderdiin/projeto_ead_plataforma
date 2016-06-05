@@ -8,6 +8,7 @@
 			<a href='/empresa'>Home</a>
 			<?php if ($_SESSION['USER']['TYPE'] == 'ADM') { ?>
 			<a href='?controller=pages&action=clients'>Manage clients</a>
+			<a href='?controller=pages&action=services'>Manage services</a>
 			<?php } ?>
 			<a href='?controller=login&action=logoff'>Logoff</a>
 		</header>
