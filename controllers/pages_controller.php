@@ -22,6 +22,10 @@
             require_once('views/services/services_add.php');
         }
 
+        public function contracts() {
+            require_once('views/contracts/contracts_add.php');
+        }
+
         public function error() {
             require_once('views/pages/error.php');
         }
@@ -52,6 +56,20 @@
             $id = $_GET['id'];
             
             require_once('views/services/services_edit.php');
+        }
+
+        public function contracts_add() {
+            require_once('views/contracts/contracts_add.php');
+        } 
+
+        public function contracts_list() {
+            require_once('views/contracts/contracts_list.php');
+        } 
+
+        public function contracts_edit() {
+            $id = $_GET['id'];
+            
+            require_once('views/contracts/contracts_edit.php');
         }
     }
 ?>
