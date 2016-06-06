@@ -6,6 +6,14 @@
 	$clients = ClientsController::list();
 ?>
 
+<script type="text/javascript">
+	function removeClient(id) {
+		if (confirm('Removing this client, all contracts with him will be deleted. Continue?')) {
+			location.href = '?controller=clients&action=remove&id=' + id;
+		}
+	}
+</script>
+
 <table id="clientsList" class="display" cellspacing="0" width="100%">
 	<thead>
 		<tr>
@@ -19,7 +27,7 @@
 		<tr>
 			<td><?php echo $client['name'];?></td>
 			<td><a href="?controller=pages&action=clients_edit&id=<?php echo $client['id']; ?>">Edit</a></td>
-			<td><a href="?controller=clients&action=remove&id=<?php echo $client['id']; ?>">Remove</a></td>
+			<td><a href="javascript:removeClient(<?php echo $client['id']; ?>);">Remove</a></td>
 		</tr>
 		<?php } ?>
 	</tbody>

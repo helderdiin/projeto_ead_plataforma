@@ -54,6 +54,22 @@
             return $stmt->execute(array(':id' => $id));
         }
 
+        public static function removeByClient($id_client) {
+            $db = Db::getInstance();
+
+            $stmt = $db->prepare("DELETE FROM contracts WHERE id_client = :id_client");
+
+            return $stmt->execute(array(':id_client' => $id_client));
+        }
+
+        public static function removeByService($id_service) {
+            $db = Db::getInstance();
+
+            $stmt = $db->prepare("DELETE FROM contracts WHERE id_service = :id_service");
+
+            return $stmt->execute(array(':id_service' => $id_service));
+        }
+
         public static function getAll($email, $type) {
 			$db = Db::getInstance();
 

@@ -6,6 +6,14 @@
 	$services = ServicesController::list();
 ?>
 
+<script type="text/javascript">
+	function removeService(id) {
+		if (confirm('Removing this service, all contracts with it will be deleted. Continue?')) {
+			location.href = '?controller=services&action=remove&id=' + id;
+		}
+	}
+</script>
+
 <table id="servicesList" class="display" cellspacing="0" width="100%">
 	<thead>
 		<tr>
@@ -19,7 +27,7 @@
 		<tr>
 			<td><?php echo $service['name'];?></td>
 			<td><a href="?controller=pages&action=services_edit&id=<?php echo $service['id']; ?>">Edit</a></td>
-			<td><a href="?controller=services&action=remove&id=<?php echo $service['id']; ?>">Remove</a></td>
+			<td><a href="javascript:removeService(<?php echo $service['id']; ?>);">Remove</a></td>
 		</tr>
 		<?php } ?>
 	</tbody>

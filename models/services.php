@@ -1,4 +1,6 @@
 <?php
+    require_once('models/contracts.php');
+    
     class Services {
         //make private
         public $id;
@@ -48,11 +50,15 @@
         }
 
         public static function remove($id) {
-            $db = Db::getInstance();
+            if (Contracts::removeByService($id)) {
+                $db = Db::getInstance();
 
-            $stmt = $db->prepare("DELETE FROM services WHERE id = :id");
+                $stmt = $db->prepare("DELETE FROM services WHERE id = :id");
 
-            return $stmt->execute(array(':id' => $id));
+                return $stmt->execute(array(':id' => $id));
+            } else {
+                return false;
+            }
         }
 
         public static function getAll() {
