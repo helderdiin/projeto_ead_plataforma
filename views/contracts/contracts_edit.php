@@ -5,11 +5,14 @@
 	require_once('controllers/services_controller.php');
 	require_once('models/services.php');
 
-	$contract = ContractsController::getContract($id);
-	$services = ServicesController::list();
+  $servicesController = new ServicesController();
+  $contractsController = new ContractsController();
+
+	$contract = $contractsController->getContract($id);
+	$services = $servicesController->list();
 ?>
 
-<form method="post" action="?controller=contracts&action=edit&id=<?php echo $contract->id; ?>">
+<form method="post" action="?controller=contracts&action=edit&id=<?php echo $contract['id']; ?>">
     <div>
        <label for="dt_init">Initial date</label>
        <div>
@@ -29,7 +32,7 @@
        	  	<option value="">Select the service</option>
        	  	<?php 
        	  		foreach ($services as $key => $service) { 
-       	  			$checked = $service['id'] == $contract->id_service ? 'selected="selected"' : '';
+       	  			$checked = $service['id'] == $contract['id_service'] ? 'selected="selected"' : '';
        	  	?>
        	  		<option <?php echo $checked; ?> value="<?php echo $service['id']; ?>"><?php echo $service['name']; ?></option>
        	  	<?php } ?>
@@ -43,7 +46,7 @@
     </div>
 </form>
 <script type="text/javascript">
-  var dates = convertMsToISOString(<?php echo $contract->dt_init; ?>, <?php echo $contract->dt_final; ?>);
+  var dates = convertMsToISOString(<?php echo $contract['dt_init']; ?>, <?php echo $contract['dt_final']; ?>);
 
   $('#dt_init').val(dates.dt_init);
   $('#dt_final').val(dates.dt_final);

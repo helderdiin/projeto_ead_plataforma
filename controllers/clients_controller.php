@@ -1,12 +1,14 @@
 <?php
 	class ClientsController {
 		public function add() {
+			$clientsModel = new Clients();
+
 			$name = trim($_POST['name']);
 			$email = trim($_POST['email']);
 			$password = trim($_POST['password']);
 
 			if ($name && $email && $password) {
-				if (Clients::add($name, $email, $password)) {
+				if ($clientsModel->add($name, $email, $password)) {
 					Header("Location: index.php?controller=pages&action=clients_list");
 					exit;
 				} else {
@@ -18,18 +20,18 @@
 		}
 
 		public function list() {
-			return Clients::getAll();
-			
-			/*echo '<pre>';
-			var_dump($list); die();
-			echo '</pre>';*/
+			$clientsModel = new Clients();
+
+			return $clientsModel->getAll();
 		}
 
 		public function getClient($id) {
-			if ($id) {
-				$client = Clients::get($id);
+			$clientsModel = new Clients();
 
-				if (is_null($client->id)) {
+			if ($id) {
+				$client = $clientsModel->get($id);
+
+				if (is_null($client['id'])) {
 					Utils::goToErrorPage();
 				}
 
@@ -40,12 +42,14 @@
 		}
 
 		public function edit() {
+			$clientsModel = new Clients();
+
 			$name = trim($_POST['name']);
 			$email = trim($_POST['email']);
 			$password = trim($_POST['password']);
 
 			if ($name && $email && $password && $_GET['id']) {
-				if (Clients::edit($_GET['id'], $name, $email, $password)) {
+				if ($clientsModel->edit($_GET['id'], $name, $email, $password)) {
 					Header("Location: index.php?controller=pages&action=clients_list");
 					exit;
 				} else {
@@ -57,8 +61,10 @@
 		}
 
 		public function remove() {
+			$clientsModel = new Clients();
+
 			if ($_GET['id']) {
-				if (Clients::remove($_GET['id'])) {
+				if ($clientsModel->remove($_GET['id'])) {
 					Header("Location: index.php?controller=pages&action=clients_list");
 					exit;
 				} else {

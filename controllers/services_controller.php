@@ -1,10 +1,12 @@
 <?php
 	class ServicesController {
 		public function add() {
+			$servicesModel = new Services();
+
 			$name = trim($_POST['name']);
 
 			if ($name) {
-				if (Services::add($name)) {
+				if ($servicesModel->add($name)) {
 					Header("Location: index.php?controller=pages&action=services_list");
 					exit;
 				} else {
@@ -16,14 +18,18 @@
 		}
 
 		public function list() {
-			return Services::getAll();
+			$servicesModel = new Services();
+
+			return $servicesModel->getAll();
 		}
 
 		public function getService($id) {
-			if ($id) {
-				$service = Services::get($id);
+			$servicesModel = new Services();
 
-				if (is_null($service->id)) {
+			if ($id) {
+				$service = $servicesModel->get($id);
+
+				if (is_null($service['id'])) {
 					Utils::goToErrorPage();
 				}
 
@@ -34,10 +40,12 @@
 		}
 
 		public function edit() {
+			$servicesModel = new Services();
+
 			$name = trim($_POST['name']);
 
 			if ($name && $_GET['id']) {
-				if (Services::edit($_GET['id'], $name)) {
+				if ($servicesModel->edit($_GET['id'], $name)) {
 					Header("Location: index.php?controller=pages&action=services_list");
 					exit;
 				} else {
@@ -49,8 +57,10 @@
 		}
 
 		public function remove() {
+			$servicesModel = new Services();
+
 			if ($_GET['id']) {
-				if (Services::remove($_GET['id'])) {
+				if ($servicesModel->remove($_GET['id'])) {
 					Header("Location: index.php?controller=pages&action=services_list");
 					exit;
 				} else {

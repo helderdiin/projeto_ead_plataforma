@@ -1,84 +1,81 @@
 <?php
     require_once('models/contracts.php');
-    
-    class Services {
-        //make private
-        public $id;
-        public $name;
 
-        public function __construct($id, $name) {
-            $this->id = $id;
-            $this->name = $name;
+    class Services extends DB {
+        function __construct() {
+            $this->getInstance();
         }
 
-        public static function checkForService($id, $name) {
-            $db = Db::getInstance();
+        public function checkForService($id, $name) {
+            $stmt = $this->con->prepare("SELECT * FROM services WHERE name = :name AND id <> :id");
 
-            $stmt = $db->prepare("SELECT * FROM services WHERE name = :name AND id <> :id");
-            $stmt->execute(array(':name' => $name, ':id' => $id));
+            $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            
+            $stmt->execute();
             
             return $stmt->fetch();
         }
 
-        public static function add($name) {
-            if (!self::checkForService("", $name)) {
-                $db = Db::getInstance();
-
-                $stmt = $db->prepare("INSERT INTO services 
+        public function add($name) {
+            if (!$this->checkForService("", $name)) {
+                $stmt = $this->con->prepare("INSERT INTO services 
                                      (id, name) VALUES
                                      (NULL, :name)");
 
-                return $stmt->execute(array(':name' => $name));
+                $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+
+                return $stmt->execute();
             } else {
                 return false;
             }
         }
 
-        public static function edit($id, $name) {
-            if (!self::checkForService($id, $name)) {
-            	$db = Db::getInstance();
-
-                $stmt = $db->prepare("UPDATE services 
+        public function edit($id, $name) {
+            if (!$this->checkForService($id, $name)) {
+                $stmt = $this->con->prepare("UPDATE services 
                 					 SET name = :name
                 					 WHERE id = :id");
+                
+                $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 
-                return $stmt->execute(array(':id' => $id, 
-                					 ':name' => $name));
+                return $stmt->execute();
             } else {
                 return false;
             }
         }
 
-        public static function remove($id) {
-            if (Contracts::removeByService($id)) {
-                $db = Db::getInstance();
+        public function remove($id) {
+            $contractsModel = new Contracts();
 
-                $stmt = $db->prepare("DELETE FROM services WHERE id = :id");
+            if ($contractsModel->removeByService($id)) {
+                $stmt = $this->con->prepare("DELETE FROM services WHERE id = :id");
 
-                return $stmt->execute(array(':id' => $id));
+                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+                return $stmt->execute();
             } else {
                 return false;
             }
         }
 
-        public static function getAll() {
-			$db = Db::getInstance();
-
-			$stmt = $db->prepare("SELECT * FROM services");
+        public function getAll() {
+			$stmt = $this->con->prepare("SELECT * FROM services");
+            
             $stmt->execute();
             
             return $stmt->fetchAll();
         }
 
-		public static function get($id) {
-			$db = Db::getInstance();
+		public function get($id) {
+			$stmt = $this->con->prepare("SELECT * FROM services WHERE id = :id");
 
-			$stmt = $db->prepare("SELECT * FROM services WHERE id = :id");
-            $stmt->execute(array(':id' => $id));
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             
-            $service = $stmt->fetch();
-
-            return new Services($service['id'], $service['name']);
+            $stmt->execute();
+            
+            return $stmt->fetch();
         }
     }
 ?>

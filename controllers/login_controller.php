@@ -1,14 +1,16 @@
 <?php
 	class LoginController {
 		public function login() {
+			$loginModel = new Login();
+
 			$email = trim($_POST['email']);
 			$password = trim($_POST['password']);
 
 			if ($email && $password) {
 				if (!is_array(Session::getSession())) {
-					$user = Login::login($email, $password);
+					$user = $loginModel->login($email, $password);
 
-					if (is_null($user->id)) {
+					if (is_null($user['id'])) {
 						Utils::goToErrorPage();
 					}
 

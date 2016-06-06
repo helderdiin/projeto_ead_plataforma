@@ -1,28 +1,18 @@
 <?php
-    class Login {
-        //make private
-        public $id;
-        public $name;
-        public $email;
-        public $password;
-        public $type;
-
-        public function __construct($id, $name, $email, $type, $password) {
-            $this->id = $id;
-            $this->name = $name;
-            $this->email = $email;
-            $this->type = $type;
-            $this->password = $password;
+    class Login extends DB {
+        function __construct() {
+            $this->getInstance();
         }
 
-        public static function login($email, $password) {
-            $db = Db::getInstance();
+        public function login($email, $password) {
+            $stmt = $this->con->prepare("SELECT * FROM users WHERE email = :email AND password = :password");
 
-            $stmt = $db->prepare("SELECT * FROM users WHERE email = :email AND password = :password");
-            $stmt->execute(array(':email' => $email, ':password' => md5($password)));
-            $user = $stmt->fetch();
-
-            return new Login($user['id'], $user['name'], $user['email'], $user['type'], $user['password']);
+            $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+            $stmt->bindValue(':password', md5($password), PDO::PARAM_STR);
+            
+            $stmt->execute();
+            
+            return $stmt->fetch();
         }
     }
 ?>

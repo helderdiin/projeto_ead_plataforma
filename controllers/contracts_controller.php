@@ -1,12 +1,14 @@
 <?php
 	class ContractsController {
 		public function add() {
+			$contractsModel = new Contracts();
+
 			$dt_init = trim($_POST['dt_init']);
 			$dt_final = trim($_POST['dt_final']);
 			$id_service = trim($_POST['id_service']);
 			
 			if ($dt_init && $dt_final && $id_service) {
-				if (Contracts::add($dt_init, $dt_final, $id_service, Session::getEmail())) {
+				if ($contractsModel->add($dt_init, $dt_final, $id_service, Session::getEmail())) {
 					Header("Location: index.php?controller=pages&action=contracts_list");
 					exit;
 				} else {
@@ -18,14 +20,18 @@
 		}
 
 		public function list() {
-			return Contracts::getAll(Session::getEmail(), Session::getType());
+			$contractsModel = new Contracts();
+
+			return $contractsModel->getAll(Session::getEmail(), Session::getType());
 		}
 
 		public function getContract($id) {
-			if ($id) {
-				$contract = Contracts::get($id);
+			$contractsModel = new Contracts();
 
-				if (is_null($contract->id)) {
+			if ($id) {
+				$contract = $contractsModel->get($id);
+
+				if (is_null($contract['id'])) {
 					Utils::goToErrorPage();
 				}
 
@@ -36,12 +42,14 @@
 		}
 
 		public function edit() {
+			$contractsModel = new Contracts();
+
 			$dt_init = trim($_POST['dt_init']);
 			$dt_final = trim($_POST['dt_final']);
 			$id_service = trim($_POST['id_service']);
 
 			if ($dt_init && $dt_final && $id_service && $_GET['id']) {
-				if (Contracts::edit($_GET['id'], $dt_init, $dt_final, $id_service, Session::getEmail())) {
+				if ($contractsModel->edit($_GET['id'], $dt_init, $dt_final, $id_service, Session::getEmail())) {
 					Header("Location: index.php?controller=pages&action=contracts_list");
 					exit;
 				} else {
@@ -53,8 +61,10 @@
 		}
 
 		public function remove() {
+			$contractsModel = new Contracts();
+			
 			if ($_GET['id']) {
-				if (Contracts::remove($_GET['id'])) {
+				if ($contractsModel->remove($_GET['id'])) {
 					Header("Location: index.php?controller=pages&action=contracts_list");
 					exit;
 				} else {

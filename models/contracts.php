@@ -1,100 +1,89 @@
 <?php
-    class Contracts {
-        //make private
-        public $id;
-        public $dt_init;
-        public $dt_final;
-        public $id_client;
-        public $id_service;
-
-        public function __construct($id, $dt_init, $dt_final, $id_client, $id_service) {
-            $this->id = $id;
-            $this->dt_init = $dt_init;
-            $this->dt_final = $dt_final;
-            $this->id_client = $id_client;
-            $this->id_service = $id_service;
+    class Contracts extends DB {
+        function __construct() {
+            $this->getInstance();
         }
 
-        public static function add($dt_init, $dt_final, $id_service, $email) {
-            $db = Db::getInstance();
-
-            $stmt = $db->prepare("INSERT INTO contracts 
+        public function add($dt_init, $dt_final, $id_service, $email) {
+            $stmt = $this->con->prepare("INSERT INTO contracts 
                                  (id, dt_init, dt_final, id_service, id_client) VALUES
                                  (NULL, :dt_init, :dt_final, :id_service, 
                                  (SELECT id FROM users WHERE email = :email))");
 
-            return $stmt->execute(array(':dt_init' => strtotime($dt_init) * 1000, 
-                                 ':dt_final' => strtotime($dt_final) * 1000, 
-                                 ':id_service' => $id_service, 
-                                 ':email' => $email));
+            $stmt->bindValue(':dt_init', strtotime($dt_init) * 1000, PDO::PARAM_INT);
+            $stmt->bindValue(':dt_final', strtotime($dt_final) * 1000, PDO::PARAM_INT);
+            $stmt->bindValue(':id_service', $id_service, PDO::PARAM_INT);
+            $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+
+            return $stmt->execute();
         }
 
-        public static function edit($id, $dt_init, $dt_final, $id_service, $email) {
-            $db = Db::getInstance();
-
-            $stmt = $db->prepare("UPDATE contracts 
+        public function edit($id, $dt_init, $dt_final, $id_service, $email) {
+            $stmt = $this->con->prepare("UPDATE contracts 
                                  SET dt_init = :dt_init, 
                                  dt_final = :dt_final,
                                  id_service = :id_service,
                                  id_client = (SELECT id FROM users WHERE email = :email)
                                  WHERE id = :id");
 
-            return $stmt->execute(array(':id' => $id, 
-                                 ':dt_init' => strtotime($dt_init) * 1000, 
-                                 ':dt_final' => strtotime($dt_final) * 1000, 
-                                 ':id_service' => $id_service, 
-                                 ':email' => $email));
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':dt_init', strtotime($dt_init) * 1000, PDO::PARAM_INT);
+            $stmt->bindValue(':dt_final', strtotime($dt_final) * 1000, PDO::PARAM_INT);
+            $stmt->bindValue(':id_service', $id_service, PDO::PARAM_INT);
+            $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+
+            return $stmt->execute();
         }
 
-        public static function remove($id) {
-            $db = Db::getInstance();
+        public function remove($id) {
+            $stmt = $this->con->prepare("DELETE FROM contracts WHERE id = :id");
 
-            $stmt = $db->prepare("DELETE FROM contracts WHERE id = :id");
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 
-            return $stmt->execute(array(':id' => $id));
+            return $stmt->execute();
         }
 
-        public static function removeByClient($id_client) {
-            $db = Db::getInstance();
+        public function removeByClient($id_client) {
+            $stmt = $this->con->prepare("DELETE FROM contracts WHERE id_client = :id_client");
 
-            $stmt = $db->prepare("DELETE FROM contracts WHERE id_client = :id_client");
+            $stmt->bindValue(':id_client', $id_client, PDO::PARAM_INT);
 
-            return $stmt->execute(array(':id_client' => $id_client));
+            return $stmt->execute();
         }
 
-        public static function removeByService($id_service) {
-            $db = Db::getInstance();
+        public function removeByService($id_service) {
+            $stmt = $this->con->prepare("DELETE FROM contracts WHERE id_service = :id_service");
 
-            $stmt = $db->prepare("DELETE FROM contracts WHERE id_service = :id_service");
+            $stmt->bindValue(':id_service', $id_service, PDO::PARAM_INT);
 
-            return $stmt->execute(array(':id_service' => $id_service));
+            return $stmt->execute();
         }
 
-        public static function getAll($email, $type) {
-			$db = Db::getInstance();
-
+        public function getAll($email, $type) {
             if ($type == 'ADM') {
-                $stmt = $db->prepare("SELECT * FROM contracts");
+                $stmt = $this->con->prepare("SELECT * FROM contracts");
+                
                 $stmt->execute();
             } else {
-    			$stmt = $db->prepare("SELECT * FROM contracts WHERE id_client = 
+    			$stmt = $this->con->prepare("SELECT * FROM contracts WHERE id_client = 
                                      (SELECT id FROM users WHERE email = :email)");
-                $stmt->execute(array(':email' => $email));
+
+                $stmt->bindValue(':email', $email, PDO::PARAM_STR);                
+                
+                $stmt->execute();
             }
             
             return $stmt->fetchAll();
         }
 
-		public static function get($id) {
-			$db = Db::getInstance();
+		public function get($id) {
+			$stmt = $this->con->prepare("SELECT * FROM contracts WHERE id = :id");
 
-			$stmt = $db->prepare("SELECT * FROM contracts WHERE id = :id");
-            $stmt->execute(array(':id' => $id));
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             
-            $contract = $stmt->fetch();
-
-            return new Contracts($contract['id'], $contract['dt_init'], $contract['dt_final'], 
-                                 $contract['id_client'], $contract['id_service']);
+            $stmt->execute();
+            
+            return $stmt->fetch();
         }
     }
 ?>

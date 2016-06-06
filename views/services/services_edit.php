@@ -3,13 +3,15 @@
 	require_once('controllers/services_controller.php');
 	require_once('models/services.php');
 
-	$service = ServicesController::getService($id);
+  $servicesController = new ServicesController();
+
+	$service = $servicesController->getService($id);
 ?>
-<form method="post" action="?controller=services&action=edit&id=<?php echo $service->id; ?>">
+<form method="post" action="?controller=services&action=edit&id=<?php echo $service['id']; ?>">
     <div>
        <label for="name">Name</label>
        <div>
-          <input type="text" name="name" id="name" placeholder="Name" value="<?php echo $service->name; ?>" required>
+          <input type="text" name="name" id="name" placeholder="Name" value="<?php echo $service['name']; ?>" required>
        </div>
     </div>
     <div>

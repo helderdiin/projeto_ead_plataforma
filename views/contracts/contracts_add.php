@@ -3,7 +3,9 @@
 	require_once('controllers/services_controller.php');
 	require_once('models/services.php');
 
-	$services = ServicesController::list();
+  $servicesController = new ServicesController();
+
+	$services = $servicesController->list();
 ?>
 <form method="post" action="?controller=contracts&action=add">
     <div>

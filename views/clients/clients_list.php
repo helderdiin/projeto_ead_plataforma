@@ -3,7 +3,9 @@
 	require_once('controllers/clients_controller.php');
 	require_once('models/clients.php');
 
-	$clients = ClientsController::list();
+	$clientsController = new ClientsController();
+
+	$clients = $clientsController->list();
 ?>
 
 <script type="text/javascript">

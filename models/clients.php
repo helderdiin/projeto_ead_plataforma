@@ -1,95 +1,90 @@
 <?php
     require_once('models/contracts.php');
-    
-    class Clients {
-        //make private
-        public $id;
-        public $name;
-        public $email;
-        public $type;
 
-        public function __construct($id, $name, $email, $type) {
-            $this->id = $id;
-            $this->name = $name;
-            $this->email = $email;
-            $this->type = $type;
+    class Clients extends DB {
+        function __construct() {
+            $this->getInstance();
         }
 
-        public static function checkForClient($id, $email) {
-            $db = Db::getInstance();
+        public function checkForClient($id, $email) {
+            $stmt = $this->con->prepare("SELECT * FROM users WHERE email = :email AND id <> :id");
 
-            $stmt = $db->prepare("SELECT * FROM users WHERE email = :email AND id <> :id");
-            $stmt->execute(array(':email' => $email, ':id' => $id));
+            $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+            $stmt->execute();
             
             return $stmt->fetch();
         }
 
-        public static function add($name, $email, $password) {
-            if (!self::checkForClient("", $email)) {
-                $db = Db::getInstance();
-
-                $stmt = $db->prepare("INSERT INTO users 
+        public function add($name, $email, $password) {
+            if (!$this->checkForClient("", $email)) {
+                $stmt = $this->con->prepare("INSERT INTO users 
                                      (id, name, email, password, type) VALUES
                                      (NULL, :name, :email, :password, :type)");
 
-                return $stmt->execute(array(':name' => $name, 
-                                     ':email' => $email, 
-                                     ':password' => md5($password), 
-                                     ':type' => "CLIENT"));
+                $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+                $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+                $stmt->bindValue(':password', md5($password), PDO::PARAM_STR);
+                $stmt->bindValue(':type', 'CLIENT', PDO::PARAM_STR);
+
+                return $stmt->execute();
             } else {
                 return false;
             }
         }
 
-        public static function edit($id, $name, $email, $password) {
-            if (!self::checkForClient($id, $email)) {
-            	$db = Db::getInstance();
-
-                $stmt = $db->prepare("UPDATE users 
+        public function edit($id, $name, $email, $password) {
+            if (!$this->checkForClient($id, $email)) {
+                $stmt = $this->con->prepare("UPDATE users 
                 					 SET name = :name, 
                 					 email = :email,
                 					 password = :password
                 					 WHERE id = :id");
 
-                return $stmt->execute(array(':id' => $id, 
-                					 ':name' => $name, 
-                					 ':email' => $email, 
-                					 ':password' => md5($password)));
+                $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+                $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+                $stmt->bindValue(':password', md5($password), PDO::PARAM_STR);
+                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+                return $stmt->execute();
             } else {
                 return false;
             }
         }
 
-        public static function remove($id) {
-            if (Contracts::removeByClient($id)) {
-                $db = Db::getInstance();
+        public function remove($id) {
+            $contractsModel = new Contracts();
 
-                $stmt = $db->prepare("DELETE FROM users WHERE id = :id");
+            if ($contractsModel->removeByClient($id)) {
+                $stmt = $this->con->prepare("DELETE FROM users WHERE id = :id");
 
-                return $stmt->execute(array(':id' => $id));
+                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+                return $stmt->execute();
             } else {
                 return false;
             }
         }
 
-        public static function getAll() {
-			$db = Db::getInstance();
+        public function getAll() {
+			$stmt = $this->con->prepare("SELECT * FROM users WHERE type = :type");
 
-			$stmt = $db->prepare("SELECT * FROM users WHERE type = :type");
-            $stmt->execute(array(':type' => 'CLIENT'));
+            $stmt->bindValue(':type', 'CLIENT', PDO::PARAM_STR);
+
+            $stmt->execute();
             
             return $stmt->fetchAll();
         }
 
-		public static function get($id) {
-			$db = Db::getInstance();
-
-			$stmt = $db->prepare("SELECT * FROM users WHERE id = :id");
-            $stmt->execute(array(':id' => $id));
+		public function get($id) {
+			$stmt = $this->con->prepare("SELECT * FROM users WHERE id = :id");
             
-            $client = $stmt->fetch();
-
-            return new Clients($client['id'], $client['name'], $client['email'], $client['type']);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            
+            $stmt->execute();
+            
+            return $stmt->fetch();
         }
     }
 ?>

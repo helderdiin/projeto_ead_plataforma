@@ -1,18 +1,13 @@
 <?php
-    class Db {
-        private static $instance = NULL;
+    abstract class DB {
+        protected $con = NULL;
 
-        private function __construct() {}
-
-        private function __clone() {}
-
-        public static function getInstance() {
-            if (is_null(self::$instance)) {
+        public function getInstance() {
+            if (is_null($this->con)) {
                 $pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-                self::$instance = new PDO('mysql:host=localhost;dbname=php_empresa', 'root', '', $pdo_options);
+                
+                $this->con = new PDO('mysql:host=localhost;dbname=php_empresa', 'root', '', $pdo_options);
             }
-
-            return self::$instance;
         }
     }
 ?>

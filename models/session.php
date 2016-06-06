@@ -12,9 +12,9 @@
 
         public static function setSession($user, $remember) {
         	$values = array(
-        					$user->name, 
-        					$user->email, 
-        					$user->type);
+        					$user['name'], 
+        					$user['email'], 
+        					$user['type']);
 
     		$session = implode(",", $values);
         	

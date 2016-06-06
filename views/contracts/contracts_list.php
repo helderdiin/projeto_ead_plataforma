@@ -7,14 +7,22 @@
 	require_once('controllers/clients_controller.php');
 	require_once('models/clients.php');
 
-	$contracts = ContractsController::list();
+	$contractsController = new ContractsController();
+	$servicesController = new ServicesController();
+	$clientsController = new ClientsController();
+
+	$contracts = $contractsController->list();
 ?>
 
 <table id="contractsList" class="display" cellspacing="0" width="100%">
 	<thead>
 		<tr>
 			<th>Service</th>
+
+			<?php if (Session::getType() == 'ADM') { ?>
 			<th>Client</th>
+			<?php } ?>
+
 			<th>Initial date</th>
 			<th>Final date</th>
 			<th>Time to finish</th>
@@ -28,12 +36,16 @@
 	<tbody>
 		<?php 
 			foreach ($contracts as $key => $contract) {
-				$service = ServicesController::getService($contract['id_service']);
-				$client = ClientsController::getClient($contract['id_client']);
+				$service = $servicesController->getService($contract['id_service']);
+				$client = $clientsController->getClient($contract['id_client']);
 		?>
 		<tr class="contract<?php echo $contract['id']; ?>">
 			<td class="service"></td>
+
+			<?php if (Session::getType() == 'ADM') { ?>
 			<td class="client"></td>
+			<?php } ?>
+			
 			<td class="dt_init"></td>
 			<td class="dt_final"></td>
 			<td class="timeToFinishService"></td>
@@ -51,8 +63,8 @@
 
 		  var $contract = $('.contract<?php echo $contract['id']; ?>');
 
-		  $contract.find('.service').text('<?php echo $service->name ?>');
-		  $contract.find('.client').text('<?php echo $client->name ?>');
+		  $contract.find('.service').text('<?php echo $service['name'] ?>');
+		  $contract.find('.client').text('<?php echo $client['name'] ?>');
 		  $contract.find('.dt_init').text(dates.dt_init);
 		  $contract.find('.dt_final').text(dates.dt_final);
 		  $contract.find('.timeToFinishService').text(getDaysToFinish(timeToFinishService));
