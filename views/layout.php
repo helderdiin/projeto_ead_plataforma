@@ -49,7 +49,7 @@
 	<body>
 		<?php if (is_array(Session::getSession())) { ?>
 		<header>
-			<a href='/empresa'>Home</a>
+			<a href='/empresa/index.php'>Home</a>
 			<?php if (Session::getType() == 'ADM') { ?>
 			<a href='?controller=pages&action=clients'>Manage clients</a>
 			<a href='?controller=pages&action=services'>Manage services</a>

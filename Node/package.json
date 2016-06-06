@@ -1,0 +1,11 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "description": "Example to get services of api",
+  "main": "getServices.js",
+  "scripts": {
+    "start": "node ./getServices.js"
+  },
+  "author": "Helder Traci",
+  "license": "ISC"
+}
