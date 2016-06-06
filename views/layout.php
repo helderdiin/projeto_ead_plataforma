@@ -1,9 +1,15 @@
-<DOCTYPE html>
-<html>
+<!DOCTYPE html> 
+<html lang="en">
 	<head>
 		<script type="text/javascript" src="includes/js/libs/jquery-2.2.4.min.js"></script>
+		<script type="text/javascript" src="includes/js/libs/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="includes/js/libs/bootstrap.min.js"></script>
+		<script type="text/javascript" src="includes/js/libs/lodash.min.js"></script>
 		<script type="text/javascript" src="includes/js/libs/moment.min.js"></script>
 		<script type="text/javascript" src="includes/js/libs/moment/pt_BR.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="includes/css/libs/dataTables.bootstrap4.min.css">
+		<link rel="stylesheet" type="text/css" href="includes/css/libs/bootstrap.min.css">
 
 		<script type="text/javascript">
 			moment.locale('pt-br');
@@ -21,6 +27,14 @@
 				};
 			}
 
+			function getDaysToFinish(timeToFinishService) {
+				if (timeToFinishService > 0) {
+					return parseInt(timeToFinishService) + ' days to finish this service';
+				} else {
+					return 'service finished.'
+				}
+			}
+
 			/*$.ajax({
 				url: 'api.php/services',
 				method: 'GET',
@@ -29,6 +43,8 @@
 				}
 			});*/
 		</script>
+
+		<meta name="viewport" content="width=device­width, initial­scale=1">
 	</head>
 	<body>
 		<?php if (is_array(Session::getSession())) { ?>
