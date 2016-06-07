@@ -64,7 +64,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `type`) VALUES
-(1, 'Administrador', 'adm', 'b09c600fddc573f117449b3723f23d64', 'ADM');
+(1, 'Administrador', 'adm@adm.com', 'b09c600fddc573f117449b3723f23d64', 'ADM');
 
 --
 -- Indexes for dumped tables
