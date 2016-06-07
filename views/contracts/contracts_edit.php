@@ -12,7 +12,7 @@
 	$services = $servicesController->list();
 ?>
 
-<form method="post" action="?controller=contracts&action=edit&id=<?php echo $contract['id']; ?>">
+<form class="form-login" method="post" action="?controller=contracts&action=edit&id=<?php echo $contract['id']; ?>">
     <div>
        <label for="dt_init">Initial date</label>
        <div>

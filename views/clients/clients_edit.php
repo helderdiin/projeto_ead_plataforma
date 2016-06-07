@@ -7,7 +7,7 @@
 
   $client = $clientsController->getClient($id);
 ?>
-<form method="post" action="?controller=clients&action=edit&id=<?php echo $client['id']; ?>">
+<form class="form-login" method="post" action="?controller=clients&action=edit&id=<?php echo $client['id']; ?>">
     <div>
        <label for="name">Name</label>
        <div>

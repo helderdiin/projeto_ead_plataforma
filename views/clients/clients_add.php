@@ -1,7 +1,7 @@
 <?php 
 	require_once('views/clients/index.php');
 ?>
-<form method="post" action="?controller=clients&action=add">
+<form class="form-login" method="post" action="?controller=clients&action=add">
     <div>
        <label for="name">Name</label>
        <div>

@@ -7,7 +7,7 @@
 
 	$services = $servicesController->list();
 ?>
-<form method="post" action="?controller=contracts&action=add">
+<form class="form-login" method="post" action="?controller=contracts&action=add">
     <div>
        <label for="dt_init">Initial date</label>
        <div>

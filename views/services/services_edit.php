@@ -7,7 +7,7 @@
 
 	$service = $servicesController->getService($id);
 ?>
-<form method="post" action="?controller=services&action=edit&id=<?php echo $service['id']; ?>">
+<form class="form-login" method="post" action="?controller=services&action=edit&id=<?php echo $service['id']; ?>">
     <div>
        <label for="name">Name</label>
        <div>
