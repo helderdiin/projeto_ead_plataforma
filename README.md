@@ -25,3 +25,7 @@ Disponibilizar o projeto no GitHub para que possamos avaliar.
 - Frontend pode ser feito da forma que quiser (não se preocupe com layout), apenas aplique CSS básico para alinhar os elementos
 
 **Obs.: Você deverá criar um mecanismo de login, sempre validando a sessão do usuário antes de dar acesso ao sistema, contendo a opção de manter conectado, onde a sessão do usuário poderá ficar ativa por um ano ou até ele fazer logoff.**
+
+## Desenvolvimendo
+
+A última vez que trabalhei com PHP foi em 2011. Finalizar esse desafio em 48 horas achei bem desafiador e acredito ter aprendido bastante, fui aprendendo (também lembrando de algumas coisas) e desenvolvendo o desafio. E consegui lembrar também o quão simples e dinâmico é o desenvolver com PHP.
